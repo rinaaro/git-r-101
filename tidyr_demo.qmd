@@ -28,18 +28,19 @@ eustock <- eustock |> mutate(time = 1:n())
 ```
 
 
-```{r}
+```{r dax_stock}
 ggplot(eustock, aes(x = time, y = DAX)) +
   geom_line()
 ```
-```{r}
+
+```{r cac_stock}
 ggplot(eustock, aes(x = time, y = CAC)) +
   geom_line()
 ```
 
 #### Wrong Solution
 
-```{r}
+```{r cac-dax_wrong}
 ggplot(eustock, aes(x = time, y = DAX)) +
   geom_line() +
   geom_line(mapping = aes(y = CAC), colour = "red")
@@ -57,7 +58,7 @@ longeustock <-
   pivot_longer(-time, names_to = "Stock Index", values_to = "Value") # identify var you don't want to pivot - becomes index of object you're working on, e.g. time - pivot everything expect time
 ```
 
-```{r}
+```{r eu_stocks}
 ggplot(longeustock, aes(
   x = time, y = Value, group = `Stock Index`,
   color = `Stock Index`
@@ -67,7 +68,7 @@ ggplot(longeustock, aes(
 
 In long format, can also use other features of ggplot -> facet wrap
 
-```{r}
+```{r facet-eu_stocks}
 #| fig-height: 10 #in inches probably
 ggplot(longeustock, aes(x = time, y = Value, colour = `Stock Index`)) +
   geom_line() +
