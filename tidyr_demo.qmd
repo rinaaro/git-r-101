@@ -13,5 +13,62 @@ library(here)
 library(ggplot2)
 library(tidyr)
 library(dplyr)
+theme_set(theme_bw())
 ```
 
+tidyr for pivoting wider/longer format
+
+
+### Multiple lines on a single graph
+
+```{r}
+eustock <- as.data.frame(EuStockMarkets)
+eustock <- eustock |> mutate(time = 1:n())
+```
+
+
+```{r}
+ggplot(eustock, aes(x = time, y = DAX)) +
+  geom_line()
+```
+```{r}
+ggplot(eustock, aes(x = time, y = CAC)) +
+  geom_line()
+```
+
+#### Wrong Solution
+
+```{r}
+ggplot(eustock, aes(x = time, y = DAX)) +
+  geom_line() +
+  geom_line(mapping = aes(y = CAC), colour = "red")
+```
+Problems:
+- y axis name is wrong
+- colours must be specified manually
+- we miss an association between colours and names
+
+#### Tidyr based solution
+```{r}
+# restructure eustock in long format
+longeustock <-
+  eustock |>
+  pivot_longer(-time, names_to = "Stock Index", values_to = "Value") # identify var you don't want to pivot - becomes index of object you're working on, e.g. time - pivot everything expect time
+```
+
+```{r}
+ggplot(longeustock, aes(
+  x = time, y = Value, group = `Stock Index`,
+  color = `Stock Index`
+)) +
+  geom_line()
+```
+
+In long format, can also use other features of ggplot -> facet wrap
+
+```{r}
+#| fig-height: 10 #in inches probably
+ggplot(longeustock, aes(x = time, y = Value, colour = `Stock Index`)) +
+  geom_line() +
+  facet_wrap(~`Stock Index`, ncol = 1, scales = "free_y")
+```
