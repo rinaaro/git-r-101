@@ -1,0 +1,17 @@
+---
+title: "Tidyr"
+author: "Arina"
+format: html
+editor: visual
+---
+
+## Tidyr and ggplot2
+```{r}
+#| message: false
+here::i_am("git-r-101.Rproj")
+library(here)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+```
+
