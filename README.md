@@ -3,3 +3,6 @@ First git project for the DM course
 
 ## Section added on GitHub
 I am testing the github editor.
+
+## Here's another
+Just to make a bad decision.
